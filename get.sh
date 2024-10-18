@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DEST="$HOME/.local"
+DEST="${BFXBLOB_ROOT:-$HOME/.local}"
 
 set -x
 
@@ -17,7 +17,14 @@ wget -O git-annex-standalone-amd64.tar.gz https://downloads.kitenet.net/git-anne
 rm -rf git-annex.linux
 tar xvf  git-annex-standalone-amd64.tar.gz
 ln -sf "${DEST}/opt/git-annex.linux/"{git,git-annex,git-annex-shell,git-receive-pack,git-upload-pack,git-shell} "${DEST}/bin"
+rm git-annex-standalone-amd64.tar.gz
+
+
+wget https://github.com/duckdb/duckdb/releases/download/v1.1.2/duckdb_cli-linux-amd64.zip
+unzip duckdb_cli-linux-amd64.zip
+mv duckdb  "${DEST}/bin"
+rm duckdb_cli-linux-amd64.zip
 
 set +x
-echo "$PATH" | grep "$HOME/.local/bin" &>/dev/null  || echo "You must add ~/.local/bin/ to your PATH, e.g. with      echo '"'export PATH="$HOME/.local/bin:$PATH"'"'>>~/.bashrc"
+echo "$PATH" | grep "$DEST/bin" &>/dev/null  || echo "You must add $DEST/bin/ to your PATH!!"
 
