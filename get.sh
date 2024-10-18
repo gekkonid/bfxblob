@@ -4,7 +4,7 @@ DEST="${BFXBLOB_ROOT:-$HOME/.local}"
 
 set -x
 
-mkdir -p "${DEST}/opt"
+mkdir -p "${DEST}"/{opt,bin}
 cd "${DEST}/opt"
 
 wget -O- https://github.com/shenwei356/csvtk/releases/download/v0.30.0/csvtk_linux_amd64.tar.gz |tar xz
