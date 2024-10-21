@@ -38,7 +38,7 @@ wget -q -O "samtools-${SAMTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/s
 tar xf "samtools-${SAMTOOLS_VERSION}.tar.bz2"
 pushd "samtools-${SAMTOOLS_VERSION}"
 ./configure --prefix="$DEST"
-make all all-htslib
+make -j4 all all-htslib
 make install install-htslib
 popd
 rm -rf "samtools-${SAMTOOLS_VERSION}"  "samtools-${SAMTOOLS_VERSION}.tar.bz2"
@@ -47,7 +47,7 @@ wget -q -O "bcftools-${BCFTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/b
 tar xf "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
 pushd "bcftools-${BCFTOOLS_VERSION}"
 ./configure --prefix="$DEST"
-make
+make -j4
 make install
 popd
 rm -rf "bcftools-${BCFTOOLS_VERSION}"  "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
@@ -55,12 +55,11 @@ rm -rf "bcftools-${BCFTOOLS_VERSION}"  "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
 wget -q -O "Python-${PYTHON_VERSION}.tar.xz" "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz"
 tar xf "Python-${PYTHON_VERSION}.tar.xz"
 pushd "Python-${PYTHON_VERSION}"
-./configure --prefix="$DEST"
-make
-make install
+./configure --prefix="$DEST" --enable-optimizations --with-lto --with-computed-gotos --with-system-ffi --enable-shared
+make -j4
+make altinstall
 popd
-rm -rf "Python-${PYTHON_VERSION}"
-
+rm -rf "Python-${PYTHON_VERSION}" "Python-${PYTHON_VERSION}.tar.xz"
 
 
 set +x
