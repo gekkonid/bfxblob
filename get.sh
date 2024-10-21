@@ -57,7 +57,7 @@ tar xf "Python-${PYTHON_VERSION}.tar.xz"
 pushd "Python-${PYTHON_VERSION}"
 ./configure --prefix="$DEST" --enable-optimizations --with-lto --with-computed-gotos --with-system-ffi --enable-shared
 make -j4
-make altinstall
+make install
 popd
 rm -rf "Python-${PYTHON_VERSION}" "Python-${PYTHON_VERSION}.tar.xz"
 
