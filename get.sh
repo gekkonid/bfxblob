@@ -35,25 +35,25 @@ update=no
 mkdir -p "${DEST}"/{opt,bin}
 cd "${DEST}/opt"
 
-if [ ! -x "${DEST}/bin/csvtk" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/csvtk" ] || [ "$update" == "yes" ]
 then
     wget -q -O- "https://github.com/shenwei356/csvtk/releases/download/v${CSVTK_VERSION}/csvtk_linux_amd64.tar.gz" |tar xz
     mv csvtk "${DEST}/bin"
 fi
 
-if [ ! -x "${DEST}/bin/seqkit" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/seqkit" ] || [ "$update" == "yes" ]
 then
     wget -q -O- "https://github.com/shenwei356/seqkit/releases/download/v${SEQKIT_VERSION}/seqkit_linux_amd64.tar.gz" | tar xz
     mv seqkit "${DEST}/bin"
 fi
 
-if [ ! -x "${DEST}/bin/taxonkit" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/taxonkit" ] || [ "$update" == "yes" ]
 then
     wget -q -O- "https://github.com/shenwei356/taxonkit/releases/download/v${TAXONKIT_VERSION}/taxonkit_linux_amd64.tar.gz" | tar xz
     mv taxonkit "${DEST}/bin"
 fi
 
-if [ ! -x "${DEST}/bin/rclone" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/rclone" ] || [ "$update" == "yes" ]
 then
     wget -q -O "rclone-v${RCLONE_VERSION}-linux-amd64.zip" "https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.zip"
     unzip "rclone-v${RCLONE_VERSION}-linux-amd64.zip"
@@ -61,7 +61,7 @@ then
     rm -r "rclone-v${RCLONE_VERSION}-linux-amd64.zip" "rclone-v${RCLONE_VERSION}-linux-amd64/"
 fi
 
-if [ ! -e "${DEST}/bin/git-annex" ] || [ "$update" == "yes"]
+if [ ! -e "${DEST}/bin/git-annex" ] || [ "$update" == "yes" ]
 then
     wget -q -O git-annex-standalone-amd64.tar.gz https://downloads.kitenet.net/git-annex/linux/current/git-annex-standalone-amd64.tar.gz
     rm -rf git-annex.linux
@@ -71,7 +71,7 @@ then
 fi
 
 
-if [ ! -x "${DEST}/bin/duckdb" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/duckdb" ] || [ "$update" == "yes" ]
 then
     wget -q -O duckdb_cli-linux-amd64.zip "https://github.com/duckdb/duckdb/releases/download/v${DUCKDB_VERSION}/duckdb_cli-linux-amd64.zip"
     unzip duckdb_cli-linux-amd64.zip
@@ -79,7 +79,7 @@ then
     rm duckdb_cli-linux-amd64.zip
 fi
 
-if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes" ]
 then
     wget -q -O "samtools-${SAMTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2"
     tar xf "samtools-${SAMTOOLS_VERSION}.tar.bz2"
@@ -91,7 +91,7 @@ then
     rm -rf "samtools-${SAMTOOLS_VERSION}"  "samtools-${SAMTOOLS_VERSION}.tar.bz2"
 fi
 
-if [ ! -x "${DEST}/bin/bcftools" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/bcftools" ] || [ "$update" == "yes" ]
 then
     wget -q -O "bcftools-${BCFTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2"
     tar xf "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
@@ -103,7 +103,7 @@ then
     rm -rf "bcftools-${BCFTOOLS_VERSION}"  "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
 fi
 
-if [ ! -x "${DEST}/bin/python3" ] || [ "$update" == "yes"]
+if [ ! -x "${DEST}/bin/python3" ] || [ "$update" == "yes" ]
 then
     wget -q -O "Python-${PYTHON_VERSION}.tar.xz" "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz"
     tar xf "Python-${PYTHON_VERSION}.tar.xz"
