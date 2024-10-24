@@ -10,7 +10,26 @@ DUCKDB_VERSION=1.1.2
 SAMTOOLS_VERSION=1.21
 BCFTOOLS_VERSION=1.21
 PYTHON_VERSION=3.12.7
+RCLONE_VERSION=1.68.1
 
+function ask_ok ()
+{
+    read -p "$1 [Yn] " -n 1 -s DO_IT
+    echo
+    if [[ "${DO_IT:-y}" != "y" && "${DO_IT:-Y}" != "Y" ]]
+    then
+        return 1
+    else
+        return 0
+    fi
+}
+
+
+
+if ! ask_ok "Confirm installation to $DEST"
+then
+    exit 0
+fi
 update=no
 
 mkdir -p "${DEST}"/{opt,bin}
@@ -21,7 +40,6 @@ then
     wget -q -O- "https://github.com/shenwei356/csvtk/releases/download/v${CSVTK_VERSION}/csvtk_linux_amd64.tar.gz" |tar xz
     mv csvtk "${DEST}/bin"
 fi
-
 
 if [ ! -x "${DEST}/bin/seqkit" ] || [ "$update" == "yes"]
 then
@@ -35,6 +53,13 @@ then
     mv taxonkit "${DEST}/bin"
 fi
 
+if [ ! -x "${DEST}/bin/rclone" ] || [ "$update" == "yes"]
+then
+    wget -q -O "rclone-v${RCLONE_VERSION}-linux-amd64.zip" "https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.zip"
+    unzip "rclone-v${RCLONE_VERSION}-linux-amd64.zip"
+    mv rclone-v${RCLONE_VERSION}-linux-amd64/rclone "${DEST}/bin"
+    rm -r "rclone-v${RCLONE_VERSION}-linux-amd64.zip" "rclone-v${RCLONE_VERSION}-linux-amd64/"
+fi
 
 if [ ! -e "${DEST}/bin/git-annex" ] || [ "$update" == "yes"]
 then
@@ -54,7 +79,6 @@ then
     rm duckdb_cli-linux-amd64.zip
 fi
 
-
 if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes"]
 then
     wget -q -O "samtools-${SAMTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2"
@@ -66,7 +90,6 @@ then
     popd
     rm -rf "samtools-${SAMTOOLS_VERSION}"  "samtools-${SAMTOOLS_VERSION}.tar.bz2"
 fi
-
 
 if [ ! -x "${DEST}/bin/bcftools" ] || [ "$update" == "yes"]
 then
