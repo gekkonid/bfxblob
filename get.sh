@@ -118,3 +118,4 @@ fi
 
 set +x
 echo "$PATH" | grep "$DEST/bin" &>/dev/null  || echo "You must add $DEST/bin/ to your PATH!!"
+echo "$LD_LIBRARY_PATH" | grep "$DEST/lib" &>/dev/null  || echo "You must add $DEST/lib/ to your LD_LIBRARY_PATH!!"
