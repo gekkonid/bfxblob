@@ -11,6 +11,7 @@ SAMTOOLS_VERSION=1.21
 BCFTOOLS_VERSION=1.21
 PYTHON_VERSION=3.12.7
 RCLONE_VERSION=1.68.1
+PANDOC_VERSION=3.5
 
 function ask_ok ()
 {
@@ -78,6 +79,15 @@ then
     mv duckdb  "${DEST}/bin"
     rm duckdb_cli-linux-amd64.zip
 fi
+
+
+if [ ! -x "${DEST}/bin/pandoc" ] || [ "$update" == "yes" ]
+then
+    wget -q -O "pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
+    tar xf "pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" -C "${DEST}"  --strip-components 1
+    rm "pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
+fi
+
 
 if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes" ]
 then
