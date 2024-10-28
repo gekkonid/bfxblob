@@ -2,6 +2,9 @@
 
 
 ```
+# by default, installs to ~/.local/   To change, do:
+#export BFXBLOB_ROOT=/some/path/to/your/opt/dir 
+
 curl -L https://github.com/kdm9/bfxblob/raw/refs/heads/main/bfxblob.sh | bash
 ```
 
