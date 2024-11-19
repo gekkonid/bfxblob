@@ -95,6 +95,8 @@ then
         https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
     tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
     cp -ra python/install/* "$DEST"
+    "$DEST/bin/python3" -m ensurepip
+    "$DEST/bin/python3" -m pip install pipx
     rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
 fi
 
@@ -104,7 +106,7 @@ then
     wget -q -O "samtools-${SAMTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2"
     tar xf "samtools-${SAMTOOLS_VERSION}.tar.bz2"
     pushd "samtools-${SAMTOOLS_VERSION}"
-    ./configure --prefix="$DEST"
+    ./configure --prefix="$DEST" --disable-libcurl --enable-configure-htslib --without-curses
     make -j4 all all-htslib
     make install install-htslib
     popd
