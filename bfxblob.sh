@@ -89,6 +89,15 @@ then
     rm "pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
 fi
 
+if [ ! -x "${DEST}/bin/python3" ] || [ "$update" == "yes" ]
+then
+    wget -q -O cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst \
+        https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
+    tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
+    cp -ra python/install/* "$DEST"
+    rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
+fi
+
 
 if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes" ]
 then
@@ -112,15 +121,6 @@ then
     make install
     popd
     rm -rf "bcftools-${BCFTOOLS_VERSION}"  "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
-fi
-
-if [ ! -x "${DEST}/bin/python3" ] || [ "$update" == "yes" ]
-then
-    wget -q -O cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst \
-        https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
-    tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
-    mv python/install/* "$DEST"
-    rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
 fi
 
 
