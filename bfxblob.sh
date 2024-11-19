@@ -10,6 +10,7 @@ DUCKDB_VERSION=1.1.2
 SAMTOOLS_VERSION=1.21
 BCFTOOLS_VERSION=1.21
 PYTHON_VERSION=3.12.7
+PYTHON_BUILDDATE=20241016
 RCLONE_VERSION=1.68.1
 PANDOC_VERSION=3.5
 
@@ -115,14 +116,11 @@ fi
 
 if [ ! -x "${DEST}/bin/python3" ] || [ "$update" == "yes" ]
 then
-    wget -q -O "Python-${PYTHON_VERSION}.tar.xz" "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz"
-    tar xf "Python-${PYTHON_VERSION}.tar.xz"
-    pushd "Python-${PYTHON_VERSION}"
-    ./configure --prefix="$DEST" --enable-optimizations --with-lto --with-computed-gotos --with-system-ffi --enable-shared
-    make -j4
-    make install
-    popd
-    rm -rf "Python-${PYTHON_VERSION}" "Python-${PYTHON_VERSION}.tar.xz"
+    wget -q -O cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst \
+        https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
+    tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
+    mv python/install/* "$DEST"
+    rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
 fi
 
 
