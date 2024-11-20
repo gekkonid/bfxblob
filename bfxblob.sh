@@ -8,7 +8,7 @@ SEQKIT_VERSION=2.8.2
 TAXONKIT_VERSION=0.17.0
 DUCKDB_VERSION=1.1.2
 SAMTOOLS_VERSION=1.21
-BCFTOOLS_VERSION=1.21
+SAMTOOLS_BUILDDATE=20241120
 PYTHON_VERSION=3.12.7
 PYTHON_BUILDDATE=20241016
 RCLONE_VERSION=1.68.1
@@ -110,29 +110,38 @@ then
     rm -rf ncdu-${NCDU_VERSION}-linux-x86_64.tar.gz 
 fi
 
+
 if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes" ]
 then
-    wget -q -O "samtools-${SAMTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2"
-    tar xf "samtools-${SAMTOOLS_VERSION}.tar.bz2"
-    pushd "samtools-${SAMTOOLS_VERSION}"
-    ./configure --prefix="$DEST" --disable-libcurl --enable-configure-htslib --without-curses
-    make -j4 all all-htslib
-    make install install-htslib
-    popd
-    rm -rf "samtools-${SAMTOOLS_VERSION}"  "samtools-${SAMTOOLS_VERSION}.tar.bz2"
+    wget -q -O "static_samtools_bcftools_v${SAMTOOLS_VERSION}.tar.xz" \
+        "https://github.com/kdm9/static_samtools_bcftools/releases/download/${SAMTOOLS_BUILDDATE}/static_samtools_bcftools_v${SAMTOOLS_VERSION}.tar.xz"
+    tar xf "static_samtools_bcftools_v${SAMTOOLS_VERSION}.tar.xz" -C "$DEST"
+    rm -f "static_samtools_bcftools_v${SAMTOOLS_VERSION}.tar.xz"
 fi
 
-if [ ! -x "${DEST}/bin/bcftools" ] || [ "$update" == "yes" ]
-then
-    wget -q -O "bcftools-${BCFTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2"
-    tar xf "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
-    pushd "bcftools-${BCFTOOLS_VERSION}"
-    ./configure --prefix="$DEST"
-    make -j4
-    make install
-    popd
-    rm -rf "bcftools-${BCFTOOLS_VERSION}"  "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
-fi
+#if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes" ]
+#then
+#    wget -q -O "samtools-${SAMTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2"
+#    tar xf "samtools-${SAMTOOLS_VERSION}.tar.bz2"
+#    pushd "samtools-${SAMTOOLS_VERSION}"
+#    ./configure --prefix="$DEST" --disable-libcurl --enable-configure-htslib --without-curses
+#    make -j4 all all-htslib
+#    make install install-htslib
+#    popd
+#    rm -rf "samtools-${SAMTOOLS_VERSION}"  "samtools-${SAMTOOLS_VERSION}.tar.bz2"
+#fi
+#
+#if [ ! -x "${DEST}/bin/bcftools" ] || [ "$update" == "yes" ]
+#then
+#    wget -q -O "bcftools-${BCFTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2"
+#    tar xf "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
+#    pushd "bcftools-${BCFTOOLS_VERSION}"
+#    ./configure --prefix="$DEST"
+#    make -j4
+#    make install
+#    popd
+#    rm -rf "bcftools-${BCFTOOLS_VERSION}"  "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
+#fi
 
 
 set +x
