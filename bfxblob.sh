@@ -13,6 +13,7 @@ PYTHON_VERSION=3.12.7
 PYTHON_BUILDDATE=20241016
 RCLONE_VERSION=1.68.1
 PANDOC_VERSION=3.5
+NCDU_VERSION=2.7
 
 function ask_ok ()
 {
@@ -100,6 +101,14 @@ then
     rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
 fi
 
+if [ ! -x "${DEST}/bin/ncdu" ] || [ "$update" == "yes" ]
+then
+
+    wget -q -O ncdu-${NCDU_VERSION}-linux-x86_64.tar.gz https://dev.yorhel.nl/download/ncdu-${NCDU_VERSION}-linux-x86_64.tar.gz
+    tar xf ncdu-${NCDU_VERSION}-linux-x86_64.tar.gz 
+    mv ncdu "$DEST/bin"
+    rm -rf ncdu-${NCDU_VERSION}-linux-x86_64.tar.gz 
+fi
 
 if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes" ]
 then
