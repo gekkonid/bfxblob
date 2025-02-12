@@ -19,6 +19,7 @@ PYTHON_BUILDDATE=20241016
 RCLONE_VERSION=1.68.1
 PANDOC_VERSION=3.5
 NCDU_VERSION=2.7
+SHELLCHECK_VERSION=0.10.0
 
 function ask_ok ()
 {
@@ -141,6 +142,15 @@ if [ ! -x "${DEST}/bin/genome_updater.sh" ] || [ "${update}" == "yes" ]
 then
     wget -q -O "${DEST}/bin/genome_updater.sh" https://raw.githubusercontent.com/pirovc/genome_updater/master/genome_updater.sh
     chmod +x "${DEST}/bin/genome_updater.sh"
+fi
+
+
+if [ ! -x "${DEST}/bin/shellcheck" ] || [ "${update}" == "yes" ]
+then
+    wget -q -O- https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz | \
+        tar xvJ 
+    mv shellcheck-v${SHELLCHECK_VERSION}/shellcheck "${DEST}/bin/shellcheck"
+    rm -rf shellcheck-v${SHELLCHECK_VERSION}/
 fi
 
 
