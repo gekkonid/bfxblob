@@ -101,6 +101,9 @@ then
         https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
     tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
     cp -ra python/install/* "$DEST"
+    sed -i -e "s,'clang++,'c++," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
+    sed -i -e "s,'clang,'cc," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
+    sed -i -e "s,'/tools/llvm/bin/llvm-ar,'ar," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
     "$DEST/bin/python3" -m ensurepip
     "$DEST/bin/python3" -m pip install pipx
     rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
@@ -142,5 +145,5 @@ fi
 
 
 set +x
-echo "$PATH" | grep "$DEST/bin" &>/dev/null  || echo "You must add $DEST/bin/ to your PATH!!"
-echo "$LD_LIBRARY_PATH" | grep "$DEST/lib" &>/dev/null  || echo "You must add $DEST/lib/ to your LD_LIBRARY_PATH!!"
+echo "${PATH:-}" | grep "$DEST/bin" &>/dev/null  || echo "You must add $DEST/bin/ to your PATH!!"
+echo "${LD_LIBRARY_PATH:-}" | grep "$DEST/lib" &>/dev/null  || echo "You must add $DEST/lib/ to your LD_LIBRARY_PATH!!"
