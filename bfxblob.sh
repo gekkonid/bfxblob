@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Copyright 2024-2025 Kevin Murray/Gekkonid Scientific Pty. Ltd.
+#This Source Code Form is subject to the terms of the Mozilla Public
+#License, v. 2.0. If a copy of the MPL was not distributed with this
+#file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 set -euo pipefail
 DEST="${BFXBLOB_ROOT:-$HOME/.local}"
 
@@ -119,29 +124,21 @@ then
     rm -f "static_samtools_bcftools_v${SAMTOOLS_VERSION}.tar.xz"
 fi
 
-#if [ ! -x "${DEST}/bin/samtools" ] || [ "$update" == "yes" ]
-#then
-#    wget -q -O "samtools-${SAMTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2"
-#    tar xf "samtools-${SAMTOOLS_VERSION}.tar.bz2"
-#    pushd "samtools-${SAMTOOLS_VERSION}"
-#    ./configure --prefix="$DEST" --disable-libcurl --enable-configure-htslib --without-curses
-#    make -j4 all all-htslib
-#    make install install-htslib
-#    popd
-#    rm -rf "samtools-${SAMTOOLS_VERSION}"  "samtools-${SAMTOOLS_VERSION}.tar.bz2"
-#fi
-#
-#if [ ! -x "${DEST}/bin/bcftools" ] || [ "$update" == "yes" ]
-#then
-#    wget -q -O "bcftools-${BCFTOOLS_VERSION}.tar.bz2" "https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2"
-#    tar xf "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
-#    pushd "bcftools-${BCFTOOLS_VERSION}"
-#    ./configure --prefix="$DEST"
-#    make -j4
-#    make install
-#    popd
-#    rm -rf "bcftools-${BCFTOOLS_VERSION}"  "bcftools-${BCFTOOLS_VERSION}.tar.bz2"
-#fi
+if [ ! -x "${DEST}/bin/datasets" ] || [ "$update" == "yes" ]
+then
+    wget -q -O "${DEST}/bin/datasets" \
+        "https://ftp.ncbi.nlm.nih.gov/pub/datasets/command-line/v2/linux-amd64/datasets"
+    chmod +x "${DEST}/bin/datasets" 
+    wget -q -O "${DEST}/bin/dataformat" \
+        "https://ftp.ncbi.nlm.nih.gov/pub/datasets/command-line/v2/linux-amd64/dataformat"
+    chmod +x "${DEST}/bin/dataformat" 
+fi
+
+if [ ! -x "${DEST}/bin/genome_updater.sh" ] || [ "${update}" == "yes" ]
+then
+    wget -q -O "${DEST}/bin/genome_updater.sh" https://raw.githubusercontent.com/pirovc/genome_updater/master/genome_updater.sh
+    chmod +x "${DEST}/bin/genome_updater.sh"
+fi
 
 
 set +x
