@@ -6,7 +6,7 @@ Sometimes, you just want the effin binaries...
 # by default, installs to ~/.local/   To change, do:
 #export BFXBLOB_ROOT=/some/path/to/your/opt/dir 
 
-wget -O bfxblob.sh https://github.com/kdm9/bfxblob/raw/refs/heads/main/bfxblob.sh
+wget -O bfxblob.sh https://github.com/gekkonid/bfxblob/raw/refs/heads/main/bfxblob.sh
 bash bfxblob.sh
 ```
 
