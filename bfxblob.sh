@@ -20,6 +20,7 @@ RCLONE_VERSION=1.68.1
 PANDOC_VERSION=3.5
 NCDU_VERSION=2.7
 SHELLCHECK_VERSION=0.10.0
+BEDTOOLS_VERSION=2.31.0
 
 function ask_ok ()
 {
@@ -151,6 +152,14 @@ then
         tar xvJ 
     mv shellcheck-v${SHELLCHECK_VERSION}/shellcheck "${DEST}/bin/shellcheck"
     rm -rf shellcheck-v${SHELLCHECK_VERSION}/
+fi
+
+
+if [ ! -x "${DEST}/bin/bedtools" ] || [ "${update}" == "yes" ]
+then
+    wget -q -O "${DEST}/bin/bedtools" \
+        https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools.static
+    chmod +x "${DEST}/bin/bedtools"
 fi
 
 
