@@ -97,18 +97,22 @@ then
     rm "pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
 fi
 
-if [ ! -x "${DEST}/bin/python3" ] || [ "$update" == "yes" ]
+
+if [ -z "${BFXBLOB_NO_PYTHON:-}" ]
 then
-    wget -q -O cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst \
-        https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
-    tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
-    cp -ra python/install/* "$DEST"
-    sed -i -e "s,'clang++,'c++," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
-    sed -i -e "s,'clang,'cc," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
-    sed -i -e "s,'/tools/llvm/bin/llvm-ar,'ar," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
-    "$DEST/bin/python3" -m ensurepip
-    "$DEST/bin/python3" -m pip install pipx
-    rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
+    if [ ! -x "${DEST}/bin/python3" ] || [ "$update" == "yes" ]
+    then
+        wget -q -O cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst \
+            https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
+        tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
+        cp -ra python/install/* "$DEST"
+        sed -i -e "s,'clang++,'c++," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
+        sed -i -e "s,'clang,'cc," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
+        sed -i -e "s,'/tools/llvm/bin/llvm-ar,'ar," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
+        "$DEST/bin/python3" -m ensurepip
+        "$DEST/bin/python3" -m pip install pipx
+        rm -rf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" python
+    fi
 fi
 
 if [ ! -x "${DEST}/bin/ncdu" ] || [ "$update" == "yes" ]
@@ -162,6 +166,19 @@ then
     chmod +x "${DEST}/bin/bedtools"
 fi
 
+if [ ! -x "${DEST}/bin/caddy" ] || [ "${update}" == "yes" ]
+then
+    wget -q -O "${DEST}/bin/caddy"  \
+        "https://caddyserver.com/api/download?os=linux&arch=amd64"
+    chmod +x "${DEST}/bin/caddy" 
+fi
+
+if [ ! -x "${DEST}/bin/seqchk" ] || [ "${update}" == "yes" ]
+then
+    wget -q -O "${DEST}/bin/seqchk" \
+        https://github.com/kdm9/seqchk/raw/refs/heads/main/seqchk
+    chmod +x "${DEST}/bin/seqchk"
+fi
 
 set +x
 echo "${PATH:-}" | grep "$DEST/bin" &>/dev/null  || echo "You must add $DEST/bin/ to your PATH!!"
