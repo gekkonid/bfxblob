@@ -24,7 +24,7 @@ BEDTOOLS_VERSION=2.31.0
 
 function ask_ok ()
 {
-    read -p "$1 [Yn] " -n 1 -s DO_IT
+    read -r -p "$1 [Yn] " -n 1 -s DO_IT
     echo
     if [[ "${DO_IT:-y}" != "y" && "${DO_IT:-Y}" != "Y" ]]
     then
@@ -104,7 +104,7 @@ then
     then
         wget -q -O cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst \
             https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILDDATE}/cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
-        tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst"
+        tar xf "cpython-${PYTHON_VERSION}+${PYTHON_BUILDDATE}-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst" -I unzstd
         cp -ra python/install/* "$DEST"
         sed -i -e "s,'clang++,'c++," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
         sed -i -e "s,'clang,'cc," "${DEST}/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py"
@@ -183,3 +183,10 @@ fi
 set +x
 echo "${PATH:-}" | grep "$DEST/bin" &>/dev/null  || echo "You must add $DEST/bin/ to your PATH!!"
 echo "${LD_LIBRARY_PATH:-}" | grep "$DEST/lib" &>/dev/null  || echo "You must add $DEST/lib/ to your LD_LIBRARY_PATH!!"
+
+if [ -z "${BFXBLOB_NO_PYTHON:-}" ]
+then
+    echo "You also probably want to set the following environmental variables, for pipx to behave sensibly:"
+    echo "export PIPX_HOME=\"$DEST/pipx\""
+    echo "export PIPX_BIN_DIR=\"$DEST/bin\""
+fi

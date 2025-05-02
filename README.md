@@ -21,5 +21,7 @@ This is a "quick start" script for bioinformatics, to install a bunch of common 
 - Genome-updater.sh
 - pandoc
 - bedtools
+- shellcheck
+- caddy
 
 [^1]: These binaries should run on any recent-ish amd64 Linux (e.g. since Ubuntu 18.04-ish). If it breaks for you on such systems, let me know. If it breaks on something old or particularly exotic, then sorry, you get to keep both pieces :)
