@@ -21,6 +21,7 @@ PANDOC_VERSION=3.5
 NCDU_VERSION=2.7
 SHELLCHECK_VERSION=0.10.0
 BEDTOOLS_VERSION=2.31.0
+DIAMOND_VERSION=2.1.12
 
 function ask_ok ()
 {
@@ -178,6 +179,14 @@ then
     wget -q -O "${DEST}/bin/seqchk" \
         https://github.com/kdm9/seqchk/raw/refs/heads/main/seqchk
     chmod +x "${DEST}/bin/seqchk"
+fi
+
+if [ ! -x "${DEST}/bin/diamond" ] || [ "${update}" == "yes" ]
+then
+    wget -q -O - https://github.com/bbuchfink/diamond/releases/download/v${DIAMOND_VERSION}/diamond-linux64.tar.gz | \
+        tar xvz 
+    mv diamond "${DEST}/bin/diamond"
+    chmod +x "${DEST}/bin/diamond"
 fi
 
 set +x
